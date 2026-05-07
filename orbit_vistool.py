@@ -221,7 +221,7 @@ else:
     st.markdown("---")
     
     # --- TABS ---
-    tab2, tab1 = st.tabs(["📊 Pixel Analysis", "🌍 3D Swath (Daytime Only)"])
+    tab2, tab1 = st.tabs(["🌍 3D Swath (Daytime Only)","📊 Pixel Analysis"])
     
     with tab1:
         col1, col2 = st.columns([1, 2])
