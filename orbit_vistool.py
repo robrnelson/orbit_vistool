@@ -221,7 +221,7 @@ else:
     st.markdown("---")
     
     # --- TABS ---
-    tab1, tab2 = st.tabs(["📊 Pixel Analysis", "🌍 3D Swath (Daytime Only)"])
+    tab2, tab1 = st.tabs(["📊 Pixel Analysis", "🌍 3D Swath (Daytime Only)"])
     
     with tab1:
         col1, col2 = st.columns([1, 2])
@@ -244,9 +244,9 @@ else:
                 flat.append((data['h'] / np.cos(theta_abs)**2) * beta)
                 
             fig, ax = plt.subplots(figsize=(8, 3.5))
-            ax.plot(np.degrees(angles), curved, color='#FF4B4B', lw=2.5, label='Real Earth')
-            ax.fill_between(np.degrees(angles), curved, color='#FF4B4B', alpha=0.1)
-            ax.plot(np.degrees(angles), flat, color='#28a745', lw=2.5, ls='--', label='Flat Earth')
+            ax.plot(np.degrees(angles), curved, color='#28a745', lw=2.5, label='Spherical Earth')
+            #ax.fill_between(np.degrees(angles), curved, color='#FF4B4B', alpha=0.1)
+            ax.plot(np.degrees(angles), flat, color='#FF4B4B', lw=2.5, ls='--', label='Flat Earth')
             ax.set_xlim(np.degrees(min(angles)), np.degrees(max(angles)))
             ax.set_ylim(0, max(curved)*1.15)
             ax.grid(True, ls='--', alpha=0.5)
@@ -256,11 +256,15 @@ else:
     with tab2:
         st.subheader("Daytime Coverage Visualization")
         st.write("Displaying only orbit segments where the satellite is in sunlight.")
+
+        # --- NEW SLIDER IMPLEMENTATION ---
+        sim_days = st.slider("Simulation Duration (Days)", min_value=1, max_value=30, value=1, step=1)
+        sim_hours = sim_days * 24
         
         with st.spinner("Calculating Day/Night cycles and Swath Geometry..."):
             # 1. Get List of Daytime Segments
-            segments, sim_date = propagate_orbit_daytime_segments(tle_line1, tle_line2, duration_hours=24)
-            st.success(f"Visualizing Date: {sim_date.strftime('%Y-%m-%d')} | Found {len(segments)} daytime passes.")
+            segments, sim_date = propagate_orbit_daytime_segments(tle_line1, tle_line2, duration_hours=sim_hours)
+            st.success(f"Visualizing Date: {sim_date.strftime('%Y-%m-%d')} | Found {len(segments)} daytime passes over {sim_days} day(s).")
 
             # 2. Build Plotly Figure
             fig3d = go.Figure()
