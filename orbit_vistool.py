@@ -198,8 +198,8 @@ except Exception as e:
     derived_altitude = 828.0 
 
 # Other Sliders
-target_swath = st.sidebar.slider("Swath Width (km)", 100.0, 3000.0, step=10.0, key='swath_val')
-num_pixels = st.sidebar.slider("Sensor Pixels", 100, 5000, step=16, key='pixel_val')
+target_swath = st.sidebar.slider("Swath Width (km)", 10.0, 5000.0, step=10.0, key='swath_val')
+num_pixels = st.sidebar.slider("Sensor Pixels", 10, 5000, step=16, key='pixel_val')
 
 st.sidebar.markdown("---")
 st.sidebar.button("↺ Reset Defaults", on_click=reset_defaults)
